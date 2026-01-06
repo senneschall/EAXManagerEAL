@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="ReadEalFiles/ReadEalFiles.vcxproj" Id="953a9387-90a5-426b-9b96-ac587e4988ed" />
+</Solution>
