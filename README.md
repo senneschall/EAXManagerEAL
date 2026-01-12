@@ -104,9 +104,9 @@ EAGLE™ can be used to confirm and understand the information read from *.eal* 
 
 ## EAL file
 
-There is an official specification for Environmental Audio Library files. But it can be decoded: the container format of the *.eal* files is little endian RIFF - [Resource Interchange File Format](https://en.wikipedia.org/wiki/Resource_Interchange_File_Format).
+There is no official specification for Environmental Audio Library files. But it can be decoded: the container format of the *.eal* files is little endian RIFF - [Resource Interchange File Format](https://en.wikipedia.org/wiki/Resource_Interchange_File_Format).
 
-*.eal* files consist of the main `RIFF chunk` and 4 `LIST Subchunks`.
+Unreal Tournament's *.eal* files consist of the main `RIFF chunk` and 4 `LIST Subchunks`.
 
 ###### Main chunk
 
