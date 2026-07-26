@@ -8,8 +8,6 @@ There are two main goals:
 
 2. create a platform independent alternative implementation to *EaxMan.dll*
 
-## 
-
 ## The story so far
 
 In 2001, *Creative* released a patch that added level specific EAX presets. The website for that patch is gone now, but it was archived here: [EAX enhancements for Unreal Tournament](https://web.archive.org/web/20050320092918/http://eax.creative.com/eagle/unreal/)
