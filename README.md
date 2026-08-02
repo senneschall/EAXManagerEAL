@@ -20,13 +20,13 @@ Starting with Windows Vista, Microsoft deprecated *DirectSound3D* which meant a 
 
 To restore the hardware acceleration, *Creative* release [ALChemy](https://support.creative.com/Downloads/searchdownloads.aspx?strstring=almy&showdetails=1). This translates the calls to *DirectSound3D* into hardware accelerated *OpenAL* calls. The downside is you must have specific sound hardware. The list of supported hardware is limited to some *Creative* Sound Blaster cards.
 
-##### Make EAX effects work in modern times
+### Make EAX effects work in modern times
 
 When *OpenAL* was developed, it added the Effects Extension (**EFX**), which enables *EAX* calls to be processed in *OpenAL*. Eventually, *Creative* ceased the *OpenAL* development, but a software implementation of *OpenAL* is still actively developed: [OpenAL Soft is a software implementation of the OpenAL 3D audio API.](https://github.com/kcat/openal-soft/) *OpenAL Soft* implements the *EFX* extension in software, which makes it independent of specific audio hardware. Therefore the effects can be used with any sound card.
 
 To make use of *EFX*, the game needs to use *OpenAL*, which the Windows version of Unreal Tournament v436 does not. The *Creative EAX patches* only run on this version. They include a modified *Galaxy.dll*, which does not use *OpenAL*. But it can use the *DirectSound3D* API. As we've learned, it does not work under Windows Vista and newer versions of Windows. But the maintainer fo *OpenAL Soft* also created a [DSOAL](https://github.com/kcat/dsoal), a translation layer from *DirectSound* to *OpenAL*. With that, the *DirectSound3D* calls from the game can e processed by *OpenAl Soft*. So the *EAX* effects can be used on a modern Windows.
 
-##### What is this repository about?
+### What is this repository about?
 
 The *EAX* presets from *Creative's EAX patches* can be used on modern computer, so why not stop there? The answer is the limitations.
 
@@ -43,49 +43,49 @@ The *EAX patches* for Unreal Tournament are still available today. Several mirro
 The patches are 3 separate files. The content of each file when installed:
 
 **eaxutsys.exe**
-
-> UnrealTournament\System\EaxMan.dll
-> UnrealTournament\System\Galaxy.dll
-
+```
+UnrealTournament\System\EaxMan.dll
+UnrealTournament\System\Galaxy.dll
+```
 **uteaxdm.exe**
-
-> UnrealTournament\Eal\DM-Barricade.eal
-> UnrealTournament\Eal\DM-Codex.eal
-> UnrealTournament\Eal\DM-Conveyor.eal
-> UnrealTournament\Eal\DM-Curse][.eal
-> UnrealTournament\Eal\DM-Deck16][.eal
-> UnrealTournament\Eal\DM-Fetid.eal
-> UnrealTournament\Eal\DM-Fractal.eal
-> UnrealTournament\Eal\DM-Gothic.eal
-> UnrealTournament\Eal\DM-Grinder.eal
-> UnrealTournament\Eal\DM-Hyperblast.eal
-> UnrealTournament\Eal\DM-Kgalleon.eal
-> UnrealTournament\Eal\DM-Liandri.eal
-> UnrealTournament\Eal\DM-Morbias][.eal
-> UnrealTournament\Eal\DM-Morpheus.eal
-> UnrealTournament\Eal\DM-Oblivion.eal
-> UnrealTournament\Eal\DM-Peak.eal
-> UnrealTournament\Eal\DM-Phobos.eal
-> UnrealTournament\Eal\DM-Pressure.eal
-> UnrealTournament\Eal\DM-Pyramid.eal
-> UnrealTournament\Eal\DM-Stalwart.eal
-> UnrealTournament\Eal\DM-StalwartXL.eal
-> UnrealTournament\Eal\DM-Tempest.eal
-> UnrealTournament\Eal\DM-Turbine.eal
-> UnrealTournament\Eal\DM-Zeto.eal
-
+```
+UnrealTournament\Eal\DM-Barricade.eal
+UnrealTournament\Eal\DM-Codex.eal
+UnrealTournament\Eal\DM-Conveyor.eal
+UnrealTournament\Eal\DM-Curse][.eal
+UnrealTournament\Eal\DM-Deck16][.eal
+UnrealTournament\Eal\DM-Fetid.eal
+UnrealTournament\Eal\DM-Fractal.eal
+UnrealTournament\Eal\DM-Gothic.eal
+UnrealTournament\Eal\DM-Grinder.eal
+UnrealTournament\Eal\DM-Hyperblast.eal
+UnrealTournament\Eal\DM-Kgalleon.eal
+UnrealTournament\Eal\DM-Liandri.eal
+UnrealTournament\Eal\DM-Morbias][.eal
+UnrealTournament\Eal\DM-Morpheus.eal
+UnrealTournament\Eal\DM-Oblivion.eal
+UnrealTournament\Eal\DM-Peak.eal
+UnrealTournament\Eal\DM-Phobos.eal
+UnrealTournament\Eal\DM-Pressure.eal
+UnrealTournament\Eal\DM-Pyramid.eal
+UnrealTournament\Eal\DM-Stalwart.eal
+UnrealTournament\Eal\DM-StalwartXL.eal
+UnrealTournament\Eal\DM-Tempest.eal
+UnrealTournament\Eal\DM-Turbine.eal
+UnrealTournament\Eal\DM-Zeto.eal
+```
 **uteaxctf.exe**
-
-> UnrealTournament\Eal\CTF-Command.eal
-> UnrealTournament\Eal\CTF-Coret.eal
-> UnrealTournament\Eal\CTF-dreary.eal
-> UnrealTournament\Eal\CTF-EternalCave.eal
-> UnrealTournament\Eal\CTF-Face.eal
-> UnrealTournament\Eal\CTF-Gauntlet.eal
-> UnrealTournament\Eal\CTF-LavaGiant.eal
-> UnrealTournament\Eal\CTF-Niven.eal
-> UnrealTournament\Eal\CTF-November.eal
-
+```
+UnrealTournament\Eal\CTF-Command.eal
+UnrealTournament\Eal\CTF-Coret.eal
+UnrealTournament\Eal\CTF-dreary.eal
+UnrealTournament\Eal\CTF-EternalCave.eal
+UnrealTournament\Eal\CTF-Face.eal
+UnrealTournament\Eal\CTF-Gauntlet.eal
+UnrealTournament\Eal\CTF-LavaGiant.eal
+UnrealTournament\Eal\CTF-Niven.eal
+UnrealTournament\Eal\CTF-November.eal
+```
 The `*.eal` files are **Environmental Audio Library** files. Those are installed to the newly created folder `UnrealTournament\Eal`. Each file contains the EAX presets for the according map.
 
 The `Galaxy.dll` installed to `UnrealTournament\System` replaces the existing file. This is the patched *Galaxy Audio* system that must be used for the EAX presets to work.
@@ -106,7 +106,7 @@ There is official specification for Environmental Audio Library files. But it ca
 
 *.eal* files consist of the main `RIFF chunk` with the form type `eam `, some subchunks with global data and 4 `LIST Subchunks`.
 
-###### Global chunks
+#### Global chunks
 
 | FourCC | data                                                                       | shown in EAGLE                                     |
 | ------ | -------------------------------------------------------------------------- | -------------------------------------------------- |
@@ -121,7 +121,7 @@ There is official specification for Environmental Audio Library files. But it ca
 | 'dfil' | `<string>` [*260 bytes*]                                                   | Wave file (full path) in Default Source Properties |
 | 'dmat' | `<struct>` MATERIALATTRIBUTES [defined in *EaxMan.h*]                      | Default Obstacle                                   |
 
-###### Environment Models Chunk
+#### Environment Models Chunk
 
 This is a LIST chunk with FourCC `envp`. The subchunks are:
 
@@ -131,7 +131,7 @@ This is a LIST chunk with FourCC `envp`. The subchunks are:
 | 'nams'                        | array of `<string>`; length of each string: *32 bytes* | entries are shown under *Environment Models*                              |
 | 'lisp'                        | array of `<struct>` EAXLISTENERPROPERTIES              | dialog **Environment Controls** shows data for selected environment model |
 
-###### Source Models Chunk
+#### Source Models Chunk
 
 This is a LIST chunk with FourCC `srcp`. The subchunks are:
 
@@ -142,7 +142,7 @@ This is a LIST chunk with FourCC `srcp`. The subchunks are:
 | 'fils'                        | array of `<string>` [*260 bytes*]                      | Wave file (full path) in selected source model properties       |
 | 'srca'                        | array of `<struct>` SOURCEATTRIBUTES                   | dialog **Source Controls** shows data for selected source model |
 
-###### Obstacle Models Chunk
+#### Obstacle Models Chunk
 
 This is a LIST chunk with FourCC `matp`. The subchunks are:
 
@@ -152,7 +152,7 @@ This is a LIST chunk with FourCC `matp`. The subchunks are:
 | 'nams'                        | array of `<string>`; length of each string: *32 bytes* | entries are shown under *Obstacle Models*                           |
 | 'mata'                        | array of `<struct>` MATERIALATTRIBUTES                 | dialog **Obstacle Controls** shows data for selected obstacle model |
 
-###### Geometry Sets Chunk
+#### Geometry Sets Chunk
 
 This is a LIST chunk with FourCC `gemp`. The subchunks are:
 
@@ -173,14 +173,14 @@ Just as with *.eal* files, there is no official specification available for *.ea
 
 *.eam* files consist of the main `RIFF chunk` with the form type `eam ` and the following `Subchunks`:
 
-###### Version chunks
+#### Version chunks
 
 | FourCC | data        |
 | ------ | ----------- | 
 | 'majv' | 2 [*fixed*] |
 | 'minv' | 1 [*fixed*] |
 
-###### Vertices Index Chunk
+#### Vertices Index Chunk
 
 The FourCC of this chunk is `vind`. It contains the index of each vertex.
 
@@ -189,7 +189,7 @@ The FourCC of this chunk is `vind`. It contains the index of each vertex.
 | `<int32>`          | total number of *indices* |
 | array of `<int32>` | index of each vertex      |
 
-###### Vertex Coordinates Chunk
+#### Vertex Coordinates Chunk
 
 The FourCC of this chunk is `vert`. It contains the x,y,z-coordinates of each vertex.
 
@@ -201,7 +201,7 @@ The FourCC of this chunk is `vert`. It contains the x,y,z-coordinates of each ve
 | `<float32>`                     | y-coordinates of a vertex    |
 | `<float32>`                     | z-coordinates of a vertex    |
 
-###### Polygons Chunk
+#### Polygons Chunk
 
 The FourCC of this chunk is `poly`. It contains the x,y,z-coordinates of each vertex.
 
@@ -216,7 +216,7 @@ The FourCC of this chunk is `poly`. It contains the x,y,z-coordinates of each ve
 | `<int32>`                       | 0 [*always*]                                                            |
 | `<float32>[vertex_count]`       | *not yet decoded*                                                       |
 
-###### Plane Thickness
+#### Plane Thickness
 
 The FourCC of this chunk is `plth`. It corresponds to the plane thickness setting in EAGLE™.
 
@@ -224,7 +224,7 @@ The FourCC of this chunk is `plth`. It corresponds to the plane thickness settin
 | ----------- | --------------- | 
 | `<float32>` | plane thickness |
 
-###### Portals
+#### Portals
 
 The FourCC of this chunk is `prto`.
 
@@ -232,7 +232,7 @@ The FourCC of this chunk is `prto`.
 | --------- | ----------------- | 
 | `<int32>` | *not yet decoded* |
 
-###### Clip Plane Chunk
+#### Clip Plane Chunk
 
 The FourCC of this chunk is `clpl`.
 
@@ -241,7 +241,7 @@ The FourCC of this chunk is `clpl`.
 | `<int32>`   | total number                 |
 | `<int32>[]` | indices *not yet understood* |
 
-###### BSP tree Chunk
+#### BSP tree Chunk
 
 The FourCC of this chunk is `bspp`. It is an array of nodes.
 
@@ -253,7 +253,7 @@ The FourCC of this chunk is `bspp`. It is an array of nodes.
 | `<int32>`                       | index *not yet understood*   |
 | `<int32>`                       | index *not yet understood*   |
 
-###### Brushes Chunk
+#### Brushes Chunk
 
 The FourCC of this chunk is `brsh`. It has not been decoded yet.
 
@@ -261,7 +261,7 @@ The FourCC of this chunk is `brsh`. It has not been decoded yet.
 | --------- | ----------- | 
 | ?         | ?           |
 
-###### Environment Tags Chunk
+#### Environment Tags Chunk
 
 The FourCC of this chunk is `tags`. It contains the environment tags/subspace names in EAGLE™.
 
@@ -275,7 +275,7 @@ The FourCC of this chunk is `tags`. It contains the environment tags/subspace na
 | `<int32>`               | *not yet decoded* possibly flags field |
 | `<int32>`               | *not yet decoded* possibly RGB code    |
 
-###### Source Tags Chunk
+#### Source Tags Chunk
 
 The FourCC of this chunk is `srcs`. It contains the source tags in EAGLE™.
 
@@ -290,17 +290,15 @@ The FourCC of this chunk is `srcs`. It contains the source tags in EAGLE™.
 
 # Goal 1: Understand EAXManager
 
-###### EAXManager reference documentation
+#### EAXManager reference documentation
 
 The **EAXManager SDK** provides us with a [reference documentation](/docs/eaxman.pdf).
 
-###### EAXManager dependencies
+#### EAXManager dependencies
 
 The EAXManager header file from the **EAXManager SDK** is included in this repository: `inc/EaxMan.h`.
 
 EaxMan.h depends on EAX 2.0. All necessary files are in the **EAX 2.0 SDK**.  The needed header is included in this repository: `inc/eax.h`.
-
-### 
 
 ## Sample program ReadEalFiles
 
@@ -316,9 +314,11 @@ Using both methods (`EaxMan.dll`  and EAGLE™) alternately to read the *.eal* f
 
 The tool has two modes:
 
-###### Static analysis
+#### Static analysis
 
-`ReadEalFiles.exe <filename>.eal`
+```
+ReadEalFiles.exe <filename>.eal
+```
 
 analyses the *.eal* file with both `EaxMan.dll` and by a manual analysis and compare both results. See Goal 2.
 
@@ -349,10 +349,11 @@ Statistics: Geometry Sets: 1 [ "Geometry1" ]
             Sources placed: 0
 ```
 
-###### Dynamic analysis
+#### Dynamic analysis
 
-`ReadEalFiles.exe -d <filename>.eal`
-
+```
+ReadEalFiles.exe -d <filename>.eal
+```
 does read the *.eal* file with `EaxMan.dll` and then asks for user input. The coordinates `X`, `Y` and `Z` need to be entered by the user as floating point numbers in the range `-32767.0 ... +32767.0`.
 
 The dynamic analysis uses the API call `GetListenerDynamicAttributes` which takes the entered coordinate and gives back the ID of the environment preset that applies to a Listener standing at that coordinates.
@@ -388,8 +389,6 @@ What `EaxMan.dll` actually does is reading all EAX parameters from the *.eal* fi
 
 This means that an implementation in Windows should be doable without major problems. `EaxMan.dll` can be used to gather all parameters needed. *OpenAL Soft* can wrap the *EAX* parameters into *EFX* calls. So the sound effects can be enjoyed on newer versions of *Unreal Tournament* as well.
 
-## 
-
 # Goal 2: Create a platform independent replacement
 
 `EaxMan.dll` is a library that can be run on Windows. But Unreal Tournament can be run under other operating systems. So there is a desire to make the EAX sound effects available under different OS' as well.
@@ -408,7 +407,7 @@ datasets are identical
 
 The data retrieved with both methods (using *EAXManager* API calls and the custom RIFF analysis done in *ReadEalFiles*) is compared. For all but one *.eal* files the data retrived with both methods are idendical. The only exception is *DM-Grinder.eal*
 
-###### DM-Grinder.eal
+#### DM-Grinder.eal
 
 *ReadEalFiles* shows a mismatch on *DM-Grinder.eal*. This *.eal* file has 8 environments defined. The environment with ID 3 is named **Small verb**. The environment with ID 5 is named **Small Verb**. The only difference therefore is the lowercase/uppercase **V**. Both environments have different values as parameters, so they are treated as two separate presets when analyzed manually. Using *EaxMan.dll*, the API call *GetEnvironmentID(name)* is used, which gives the same ID 3 with both names. So it does not distinguish between upper and lower case letters and gives back the first ID it finds.
 
@@ -444,7 +443,7 @@ The geometry data is stored inside the *.eal* file and the calculation is done b
 
 Replacing `EaxMan.dll` with custom code for OS other than Windows is possible but a feasible approach to obtain the 3D geometry data has still to be identified.
 
-#### Sample program PlayEalFiles
+### Sample program PlayEalFiles
 
 *PlayEalFiles* is a simple proof of concept for that conclusion. Just like *ReadEalFiles*, *PlayEalFiles* is a quick'n'dirty tool with the sole purpose of testing the *EFX* calls on OS other than Windows.
 
@@ -452,7 +451,7 @@ It uses the algorithm from *ReadEalFiles* to read the environment presets from a
 
 The tool shows that those effects can be read and applied on amd64 Linux without any need for *EaxMan.dll* or the modifiex *Galaxy.dll*.
 
-###### How to use
+#### How to use
 
 `./PlayEalFiles <sounds>.wav <level>.eal`
 
@@ -460,7 +459,7 @@ The *wave* file is played once without any effects applied as a reference.
 
 It then loops over all environment effects described in the *.eal* file and plays the *wave* file once with each effect applied.
 
-###### How to build
+#### How to build
 
 Compile with any C++20 compatible compiler.
 
