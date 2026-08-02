@@ -104,18 +104,16 @@ EAGLE™ can be used to confirm and understand the information read from *.eal* 
 
 There is official specification for Environmental Audio Library files. But it can be decoded: The container format of the *.eal* files is little endian RIFF - [Resource Interchange File Format](https://en.wikipedia.org/wiki/Resource_Interchange_File_Format).
 
-*.eal* files consist of the main `RIFF chunk` and 4 `LIST Subchunks`.
+*.eal* files consist of the main `RIFF chunk` with the form type `eam `, some subchunks with global data and 4 `LIST Subchunks`.
 
-###### Main chunk
+###### Global chunks
 
-The ID of this chunk is `eal ` (with a trailing space). Global data is stored here. The data fields are:
-
-| ID     | data                                                                       | shown in EAGLE                                     |
+| FourCC | data                                                                       | shown in EAGLE                                     |
 | ------ | -------------------------------------------------------------------------- | -------------------------------------------------- |
 | 'majv' | 4 [*fixed*]                                                                |                                                    |
 | 'minv' | 4 [*fixed*]                                                                |                                                    |
 | 'exep' | `<string>` [*260 bytes*]                                                   | Executable (full path) in *Execute Project* dialog |
-| 'cmds' | `<string>` [*260 bytes*]                                                   | Command (parameters) in *Execute Project dialog*   |
+| 'cmds' | `<string>` [*260 bytes*]                                                   | Command (parameters) in *Execute Project* dialog   |
 | 'gdfm' | `<int32>` MaxAttenuation; `<float>` LFRatio; `<int32>` AngleMaxAttenuation | Global Diffraction Model                           |
 | 'lisa' | `<struct>` LISTENERATTRIBUTES [defined in *EaxMan.h*]                      | Listener Attributes                                |
 | 'denv' | `<struct>` EAXLISTENERPROPERTIES [defined in *eax.h*]                      | Default Environment                                |
@@ -125,9 +123,9 @@ The ID of this chunk is `eal ` (with a trailing space). Global data is stored he
 
 ###### Environment Models Chunk
 
-The ID of this chunk is `envp`. The data fields are:
+This is a LIST chunk with FourCC `envp`. The subchunks are:
 
-| ID                            | data                                                   | shown in EAGLE                                                            |
+| FourCC                        | data                                                   | shown in EAGLE                                                            |
 | ----------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------- |
 | 'num ' (incl. trailing space) | `<int32>`                                              | total number of *Environment Models*                                      |
 | 'nams'                        | array of `<string>`; length of each string: *32 bytes* | entries are shown under *Environment Models*                              |
@@ -135,9 +133,9 @@ The ID of this chunk is `envp`. The data fields are:
 
 ###### Source Models Chunk
 
-The ID of this chunk is `srcp`.
+This is a LIST chunk with FourCC `srcp`. The subchunks are:
 
-| ID                            | data                                                   | shown in EAGLE                                                  |
+| FourCC                        | data                                                   | shown in EAGLE                                                  |
 | ----------------------------- | ------------------------------------------------------ | --------------------------------------------------------------- |
 | 'num ' (incl. trailing space) | `<int32>`                                              | total number of *Source Models*                                 |
 | 'nams'                        | array of `<string>`; length of each string: *32 bytes* | entries are shown under *Source Models*                         |
@@ -146,9 +144,9 @@ The ID of this chunk is `srcp`.
 
 ###### Obstacle Models Chunk
 
-The ID of this chunk is `matp`.
+This is a LIST chunk with FourCC `matp`. The subchunks are:
 
-| ID                            | data                                                   | shown in EAGLE                                                      |
+| FourCC                        | data                                                   | shown in EAGLE                                                      |
 | ----------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------- |
 | 'num ' (incl. trailing space) | `<int32>`                                              | total number of *Obstacle Models*                                   |
 | 'nams'                        | array of `<string>`; length of each string: *32 bytes* | entries are shown under *Obstacle Models*                           |
@@ -156,28 +154,26 @@ The ID of this chunk is `matp`.
 
 ###### Geometry Sets Chunk
 
-The ID of this chunk is `gemp`.
+This is a LIST chunk with FourCC `gemp`. The subchunks are:
 
-| ID                            | data                                                   | shown in EAGLE                                 |
+| FourCC                        | data                                                   | shown in EAGLE                                 |
 | ----------------------------- | ------------------------------------------------------ | ---------------------------------------------- |
 | 'num ' (incl. trailing space) | `<int32>`                                              | total number of *Geometry Sets*                |
 | 'nams'                        | array of `<string>`; length of each string: *32 bytes* | entries are shown under *Geometry Sets*        |
 | 'fils'                        | `<string>` [*260 bytes*]                               | Mesh file (full path) in selected geometry set |
 | 'gema'                        | **TODO** - not decoded yet                             |                                                |
 
-EAGLE™ uses both *.eal* and *.eam* files in one object. Reading the documentation and observing the patterns EAGLE™ and EAX Manager show it becomes clear, that the geometry data is kind of saved twice, once in each file, but in a different form. All objects created in EAGLE™ are saved in more or less plain sight in *.eam* files. So a *.eam* file is needed if you want to continue editing your project in EAGLE™. The details of those *.eam* files is shown in the next paragraph.
+EAGLE™ uses both *.eal* and *.eam* files when editing the geometry of a project. The geometry data is saved twice, once in each file, but in different forms. All objects created in EAGLE™ are saved in an unprocessed way into a *.eam* file. If you want to continue editing your project in EAGLE™, a *.eam* file is needed. The structure of a *.eam* file is described in the next paragraph.
 
-Inside the *.eal* file, only processed geometry data is stored inside the 'gema' chunk. But everything needed for EAX Manager to do the geometry calculations is there. EAX Manager seems to use a spatial tree to do those calculations, likely a R-tree. Further investigation is needed.
+Inside the *.eal* file, only processed geometry data is stored inside the 'gema' chunk. Everything needed for fast geometry calculations is there. The 'gema' chunk is yet to be decoded fully.
 
 ## EAM file
 
-There is also no official specification for *.eam* Environmental Audio Mesh files, but it can be interpreted in the same way as *.eal* files. According to EAGLE™ documentation, *.eam* files contains all the data contained in an *.eal* Geometry Set. The structure shows, that *.eam* files store the complete geometry data so it can be edited later.
+Just as with *.eal* files, there is no official specification available for *.eam* Environmental Audio Mesh files. According to the EAGLE™ documentation, a *.eam* file contains all the data from a *.eal* Geometry Set, so that it can be further processed using EAGLE™.
 
-*.eam* files consist of the main `RIFF chunk` with the FourCC `eam ` and the following `Subchunks`:
+*.eam* files consist of the main `RIFF chunk` with the form type `eam ` and the following `Subchunks`:
 
 ###### Version chunks
-
-The ID of this chunk is `eal ` (with a trailing space). Global data is stored here. The data fields are:
 
 | FourCC | data        |
 | ------ | ----------- | 
