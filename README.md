@@ -171,24 +171,126 @@ Inside the *.eal* file, only processed geometry data is stored inside the 'gema'
 
 ## EAM file
 
-There is also no official specification for *.eam* Environmental Audio Mesh files, but it can be interpreted in the same way as *.eal* files. According to EAGLE™ documentation, *.eam* files contains all the data contained in an *.eal* Geometry Set. That
+There is also no official specification for *.eam* Environmental Audio Mesh files, but it can be interpreted in the same way as *.eal* files. According to EAGLE™ documentation, *.eam* files contains all the data contained in an *.eal* Geometry Set. The structure shows, that *.eam* files store the complete geometry data so it can be edited later.
 
-*.eam* files consist of the main `RIFF chunk` and the following `Subchunks`:
+*.eam* files consist of the main `RIFF chunk` with the FourCC `eam ` and the following `Subchunks`:
 
-| ID     | data                                                                                                                                                                                                                                                                                                                                                                                 | shown in EAGLE                     |
-| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------- |
-| 'majv' | 2 [*fixed*]                                                                                                                                                                                                                                                                                                                                                                          |                                    |
-| 'minv' | 1 [*fixed*]                                                                                                                                                                                                                                                                                                                                                                          |                                    |
-| 'vind' | one `<int32>` number of polygons; for each triangle: three `<int32>` containing the index of the three vertices defining the triangle                                                                                                                                                                                                                                                | Triangles                          |
-| 'vert' | one `<int32>` number of vertices; for each vertex: three `<float32>` containing the x, y and z-coordinate                                                                                                                                                                                                                                                                            | Vertices                           |
-| 'poly' | one `<int32>` number of polygons; for each polygon: [*36 bytes*] not yet decoded data - one `<int32>`  4 [*fixed*]; one `<int32>` index (step size 4, so possibly used as byte offset); three `<int32>` -1 -1 0 [*fixed*]; one `<int32>` constant for all polygons inside *.eam*, different between *.eam* files; three `<float32>` possibly the x, y and z-component of the normals | Polygons                           |
-| 'plth' | one `<float32>` containing -1.0 or positive float; possibly thickness                                                                                                                                                                                                                                                                                                                | Polygon Thickness                  |
-| 'prto' | one `<int8>` containing 0                                                                                                                                                                                                                                                                                                                                                            | Portal flag / orientation?         |
-| 'clpl' | not yet decoded data                                                                                                                                                                                                                                                                                                                                                                 | Cluster Polygon Lookup?            |
-| 'bspp' | one `<int32>` number of objects; for each objects: [*12 bytes*] not yet decoded data, possibly one `<int32>` index and two `<int32>` unknown data                                                                                                                                                                                                                                    | Binary Space Partitioning Polygon? |
-| 'brsh' | not yet decoded data                                                                                                                                                                                                                                                                                                                                                                 | Brushes                            |
-| 'tags' | one `<int32>` number of tags; one `<string>` [*32 bytes*] containing the name; three `<float32>` containing the x, y and z-coordinate; one `<int32>` possibly a flag field; one `<int32>` possibly describing the RGB color                                                                                                                                                          | Environment Tags / Subspace name   |
-| 'srcs' | one `<int32>` possibly the number of sources; three `<float32>` containing the x, y and z-coordinate; one `<int32>` possibly the source index                                                                                                                                                                                                                                        | Source Tag                         |
+###### Version chunks
+
+The ID of this chunk is `eal ` (with a trailing space). Global data is stored here. The data fields are:
+
+| FourCC | data        |
+| ------ | ----------- | 
+| 'majv' | 2 [*fixed*] |
+| 'minv' | 1 [*fixed*] |
+
+###### Vertices Index Chunk
+
+The FourCC of this chunk is `vind`. It contains the index of each vertex.
+
+| data type          | description               |
+| ------------------ | ------------------------- | 
+| `<int32>`          | total number of *indices* |
+| array of `<int32>` | index of each vertex      |
+
+###### Vertex Coordinates Chunk
+
+The FourCC of this chunk is `vert`. It contains the x,y,z-coordinates of each vertex.
+
+| data type                       | description                  |
+| ------------------------------- | ---------------------------- | 
+| `<int32>`                       | total number of *vertices*   |
+| array of `<struct>` containing: | `vertices[vertex_count][3]`  |
+| `<float32>`                     | x-coordinates of a vertex    |
+| `<float32>`                     | y-coordinates of a vertex    |
+| `<float32>`                     | z-coordinates of a vertex    |
+
+###### Polygons Chunk
+
+The FourCC of this chunk is `poly`. It contains the x,y,z-coordinates of each vertex.
+
+| data type                       | description                                                             |
+| ------------------------------- | ----------------------------------------------------------------------- | 
+| `<int32>`                       | total number of *polygons*                                              |
+| array of `<struct>` containing: |                                                                         |
+| `<int32>`                       | vertex count in this polygon                                            |
+| `<int32>`                       | index with step size of vertex count above, so possibly an byte offset? |
+| `<int32>`                       | -1 [*always*]                                                           |
+| `<int32>`                       | -1 [*always*]                                                           |
+| `<int32>`                       | 0 [*always*]                                                            |
+| `<float32>[vertex_count]`       | *not yet decoded*                                                       |
+
+###### Plane Thickness
+
+The FourCC of this chunk is `plth`. It corresponds to the plane thickness setting in EAGLE™.
+
+| data type   | description     |
+| ----------- | --------------- | 
+| `<float32>` | plane thickness |
+
+###### Portals
+
+The FourCC of this chunk is `prto`.
+
+| data type | description       |
+| --------- | ----------------- | 
+| `<int32>` | *not yet decoded* |
+
+###### Clip Plane Chunk
+
+The FourCC of this chunk is `clpl`.
+
+| data type   | description                  |
+| ----------- | ---------------------------- | 
+| `<int32>`   | total number                 |
+| `<int32>[]` | indices *not yet understood* |
+
+###### BSP tree Chunk
+
+The FourCC of this chunk is `bspp`. It is an array of nodes.
+
+| data type                       | description                  |
+| ------------------------------- | ---------------------------- | 
+| `<int32>`                       | number of nodes              |
+| array of `<struct>` containing: |                              |
+| `<int32>`                       | index of current node        |
+| `<int32>`                       | index *not yet understood*   |
+| `<int32>`                       | index *not yet understood*   |
+
+###### Brushes Chunk
+
+The FourCC of this chunk is `brsh`. It has not been decoded yet.
+
+| data type | description |
+| --------- | ----------- | 
+| ?         | ?           |
+
+###### Environment Tags Chunk
+
+The FourCC of this chunk is `tags`. It contains the environment tags/subspace names in EAGLE™.
+
+| data type               | description                            |
+| ----------------------- | -------------------------------------- | 
+| `<int32>`               | total number of environment tags       |
+| `<string>` [*32 bytes*] | environment name (max. 31 characters)  |
+| `<float32>`             | x-coordinates of environment tag       |
+| `<float32>`             | y-coordinates of environment tag       |
+| `<float32>`             | z-coordinates of environment tag       |
+| `<int32>`               | *not yet decoded* possibly flags field |
+| `<int32>`               | *not yet decoded* possibly RGB code    |
+
+###### Source Tags Chunk
+
+The FourCC of this chunk is `srcs`. It contains the source tags in EAGLE™.
+
+| data type               | description                             |
+| ----------------------- | --------------------------------------- | 
+| `<int32>`               | total number of source tags             |
+| `<string>` [*32 bytes*] | source name (max. 31 characters)        |
+| `<float32>`             | x-coordinates of source tag             |
+| `<float32>`             | y-coordinates of source tag             |
+| `<float32>`             | z-coordinates of source tag             |
+| `<int32>`               | *not yet decoded* possibly source index |
 
 # Goal 1: Understand EAXManager
 
