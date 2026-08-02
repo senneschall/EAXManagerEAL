@@ -110,66 +110,64 @@ There is official specification for Environmental Audio Library files. But it ca
 
 The ID of this chunk is `eal ` (with a trailing space). Global data is stored here. The data fields are:
 
-| ID     | data                                                                 | shown in EAGLE                                     |
-| ------ | -------------------------------------------------------------------- | -------------------------------------------------- |
-| 'majv' | 4 [*fixed*]                                                          |                                                    |
-| 'minv' | 4 [*fixed*]                                                          |                                                    |
-| 'exep' | <string> [*260 bytes*]                                               | Executable (full path) in *Execute Project* dialog |
-| 'cmds' | <string> [*260 bytes*]                                               | Command (parameters) in *Execute Project dialog*   |
-| 'gdfm' | <int32> MaxAttenuation; <float> LFRatio; <int32> AngleMaxAttenuation | Global Diffraction Model                           |
-| 'lisa' | <struct> LISTENERATTRIBUTES [defined in *EaxMan.h*]                  | Listener Attributes                                |
-| 'denv' | <struct> EAXLISTENERPROPERTIES [defined in *eax.h*]                  | Default Environment                                |
-| 'dsrc' | <struct> SOURCEATTRIBUTES [defined in *EaxMan.h*]                    | Default Source                                     |
-| 'dfil' | <string> [*260 bytes*]                                               | Wave file (full path) in Default Source Properties |
-| 'dmat' | <struct> MATERIALATTRIBUTES [defined in *EaxMan.h*]                  | Default Obstacle                                   |
+| ID     | data                                                                       | shown in EAGLE                                     |
+| ------ | -------------------------------------------------------------------------- | -------------------------------------------------- |
+| 'majv' | 4 [*fixed*]                                                                |                                                    |
+| 'minv' | 4 [*fixed*]                                                                |                                                    |
+| 'exep' | `<string>` [*260 bytes*]                                                   | Executable (full path) in *Execute Project* dialog |
+| 'cmds' | `<string>` [*260 bytes*]                                                   | Command (parameters) in *Execute Project dialog*   |
+| 'gdfm' | `<int32>` MaxAttenuation; `<float>` LFRatio; `<int32>` AngleMaxAttenuation | Global Diffraction Model                           |
+| 'lisa' | `<struct>` LISTENERATTRIBUTES [defined in *EaxMan.h*]                      | Listener Attributes                                |
+| 'denv' | `<struct>` EAXLISTENERPROPERTIES [defined in *eax.h*]                      | Default Environment                                |
+| 'dsrc' | `<struct>` SOURCEATTRIBUTES [defined in *EaxMan.h*]                        | Default Source                                     |
+| 'dfil' | `<string>` [*260 bytes*]                                                   | Wave file (full path) in Default Source Properties |
+| 'dmat' | `<struct>` MATERIALATTRIBUTES [defined in *EaxMan.h*]                      | Default Obstacle                                   |
 
 ###### Environment Models Chunk
 
 The ID of this chunk is `envp`. The data fields are:
 
-| ID                            | data                                                 | shown in EAGLE                                                            |
-| ----------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------- |
-| 'num ' (incl. trailing space) | <int32>                                              | total number of *Environment Models*                                      |
-| 'nams'                        | array of <string>; length of each string: *32 bytes* | entries are shown under *Environment Models*                              |
-| 'lisp'                        | array of <struct> EAXLISTENERPROPERTIES              | dialog **Environment Controls** shows data for selected environment model |
+| ID                            | data                                                   | shown in EAGLE                                                            |
+| ----------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------- |
+| 'num ' (incl. trailing space) | `<int32>`                                              | total number of *Environment Models*                                      |
+| 'nams'                        | array of `<string>`; length of each string: *32 bytes* | entries are shown under *Environment Models*                              |
+| 'lisp'                        | array of `<struct>` EAXLISTENERPROPERTIES              | dialog **Environment Controls** shows data for selected environment model |
 
 ###### Source Models Chunk
 
 The ID of this chunk is `srcp`.
 
-| ID                            | data                                                | shown in EAGLE                                                  |
-| ----------------------------- | --------------------------------------------------- | --------------------------------------------------------------- |
-| 'num ' (incl. trailing space) | <int32>                                             | total number of *Source Models*                                 |
-| 'nams'                        | array of <string>; length of each string: *32 bytes | entries are shown under *Source Models*                         |
-| 'fils'                        | array of <string> [*260 bytes*]                     | Wave file (full path) in selected source model properties       |
-| 'srca'                        | array of <struct> SOURCEATTRIBUTES                  | dialog **Source Controls** shows data for selected source model |
+| ID                            | data                                                   | shown in EAGLE                                                  |
+| ----------------------------- | ------------------------------------------------------ | --------------------------------------------------------------- |
+| 'num ' (incl. trailing space) | `<int32>`                                              | total number of *Source Models*                                 |
+| 'nams'                        | array of `<string>`; length of each string: *32 bytes* | entries are shown under *Source Models*                         |
+| 'fils'                        | array of `<string>` [*260 bytes*]                      | Wave file (full path) in selected source model properties       |
+| 'srca'                        | array of `<struct>` SOURCEATTRIBUTES                   | dialog **Source Controls** shows data for selected source model |
 
 ###### Obstacle Models Chunk
 
 The ID of this chunk is `matp`.
 
-| ID                            | data                                                | shown in EAGLE                                                      |
-| ----------------------------- | --------------------------------------------------- | ------------------------------------------------------------------- |
-| 'num ' (incl. trailing space) | <int32>                                             | total number of *Obstacle Models*                                   |
-| 'nams'                        | array of <string>; length of each string: *32 bytes | entries are shown under *Obstacle Models*                           |
-| 'mata'                        | array of <struct> MATERIALATTRIBUTES                | dialog **Obstacle Controls** shows data for selected obstacle model |
+| ID                            | data                                                   | shown in EAGLE                                                      |
+| ----------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------- |
+| 'num ' (incl. trailing space) | `<int32>`                                              | total number of *Obstacle Models*                                   |
+| 'nams'                        | array of `<string>`; length of each string: *32 bytes* | entries are shown under *Obstacle Models*                           |
+| 'mata'                        | array of `<struct>` MATERIALATTRIBUTES                 | dialog **Obstacle Controls** shows data for selected obstacle model |
 
 ###### Geometry Sets Chunk
 
 The ID of this chunk is `gemp`.
 
-| ID                            | data                                                | shown in EAGLE                                 |
-| ----------------------------- | --------------------------------------------------- | ---------------------------------------------- |
-| 'num ' (incl. trailing space) | <int32>                                             | total number of *Geometry Sets*                |
-| 'nams'                        | array of <string>; length of each string: *32 bytes | entries are shown under *Geometry Sets*        |
-| 'fils'                        | <string> [*260 bytes*]                              | Mesh file (full path) in selected geometry set |
-| 'gema'                        | **TODO** - not decoded yet                          |                                                |
+| ID                            | data                                                   | shown in EAGLE                                 |
+| ----------------------------- | ------------------------------------------------------ | ---------------------------------------------- |
+| 'num ' (incl. trailing space) | `<int32>`                                              | total number of *Geometry Sets*                |
+| 'nams'                        | array of `<string>`; length of each string: *32 bytes* | entries are shown under *Geometry Sets*        |
+| 'fils'                        | `<string>` [*260 bytes*]                               | Mesh file (full path) in selected geometry set |
+| 'gema'                        | **TODO** - not decoded yet                             |                                                |
 
 EAGLE™ uses both *.eal* and *.eam* files in one object. Reading the documentation and observing the patterns EAGLE™ and EAX Manager show it becomes clear, that the geometry data is kind of saved twice, once in each file, but in a different form. All objects created in EAGLE™ are saved in more or less plain sight in *.eam* files. So a *.eam* file is needed if you want to continue editing your project in EAGLE™. The details of those *.eam* files is shown in the next paragraph.
 
 Inside the *.eal* file, only processed geometry data is stored inside the 'gema' chunk. But everything needed for EAX Manager to do the geometry calculations is there. EAX Manager seems to use a spatial tree to do those calculations, likely a R-tree. Further investigation is needed.
-
-
 
 ## EAM file
 
@@ -177,20 +175,20 @@ There is also no official specification for *.eam* Environmental Audio Mesh file
 
 *.eam* files consist of the main `RIFF chunk` and the following `Subchunks`:
 
-| ID     | data                                                                                                                                                                                                                                                                                                                                                               | shown in EAGLE                   |
-| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------- |
-| 'majv' | 2 [*fixed*]                                                                                                                                                                                                                                                                                                                                                        |                                  |
-| 'minv' | 1 [*fixed*]                                                                                                                                                                                                                                                                                                                                                        |                                  |
-| 'vind' | one <int32> number of polygons; for each triangle: three <int32> containing the index of the three vertices defining the triangle                                                                                                                                                                                                                                  | Triangles                        |
-| 'vert' | one <int32> number of vertices; for each vertex: three <float32> containing the x, y and z-coordinate                                                                                                                                                                                                                                                              | Vertices                         |
-| 'poly' | one <int32> number of polygons; for each polygon: [36 bytes] not yet decoded data - one <int32>  4 [fixed]; one <int32> index (step size 4, so possibly used as byte offset); three <int32> -1 -1 0 [fixed]; one <int32> constant for all polygons inside *.eam*, different between *.eam* files; three <float32> possibly the x, y and z-component of the normals | Polygons                         |
-| 'plth' | one <float32> containing -1.0                                                                                                                                                                                                                                                                                                                                      |                                  |
-| 'prto' | one <int8> containing 0                                                                                                                                                                                                                                                                                                                                            |                                  |
-| 'clpl' | not yet decoded data                                                                                                                                                                                                                                                                                                                                               |                                  |
-| 'bspp' | one <int32> number of objects; for each objects: [12 bytes] not yet decoded data, possibly one <int32> index and two <int32> unknown data                                                                                                                                                                                                                          |                                  |
-| 'brsh' | not yet decoded data                                                                                                                                                                                                                                                                                                                                               |                                  |
-| 'tags' | one <int32> number of tags; one <string> [32 bytes] containing the name; three <float32> containing the x, y and z-coordinate; one <int32> possibly a flag field; one <int32> possibly describing the RGB color                                                                                                                                                    | Environment Tags / Subspace name |
-| 'srcs' | one <int32> possibly the number of sources; three <float32> containing the x, y and z-coordinate; one <int32> possibly the source index                                                                                                                                                                                                                            | Source Tag                       |
+| ID     | data                                                                                                                                                                                                                                                                                                                                                                                 | shown in EAGLE                     |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------- |
+| 'majv' | 2 [*fixed*]                                                                                                                                                                                                                                                                                                                                                                          |                                    |
+| 'minv' | 1 [*fixed*]                                                                                                                                                                                                                                                                                                                                                                          |                                    |
+| 'vind' | one `<int32>` number of polygons; for each triangle: three `<int32>` containing the index of the three vertices defining the triangle                                                                                                                                                                                                                                                | Triangles                          |
+| 'vert' | one `<int32>` number of vertices; for each vertex: three `<float32>` containing the x, y and z-coordinate                                                                                                                                                                                                                                                                            | Vertices                           |
+| 'poly' | one `<int32>` number of polygons; for each polygon: [*36 bytes*] not yet decoded data - one `<int32>`  4 [*fixed*]; one `<int32>` index (step size 4, so possibly used as byte offset); three `<int32>` -1 -1 0 [*fixed*]; one `<int32>` constant for all polygons inside *.eam*, different between *.eam* files; three `<float32>` possibly the x, y and z-component of the normals | Polygons                           |
+| 'plth' | one `<float32>` containing -1.0 or positive float; possibly thickness                                                                                                                                                                                                                                                                                                                | Polygon Thickness                  |
+| 'prto' | one `<int8>` containing 0                                                                                                                                                                                                                                                                                                                                                            | Portal flag / orientation?         |
+| 'clpl' | not yet decoded data                                                                                                                                                                                                                                                                                                                                                                 | Cluster Polygon Lookup?            |
+| 'bspp' | one `<int32>` number of objects; for each objects: [*12 bytes*] not yet decoded data, possibly one `<int32>` index and two `<int32>` unknown data                                                                                                                                                                                                                                    | Binary Space Partitioning Polygon? |
+| 'brsh' | not yet decoded data                                                                                                                                                                                                                                                                                                                                                                 | Brushes                            |
+| 'tags' | one `<int32>` number of tags; one `<string>` [*32 bytes*] containing the name; three `<float32>` containing the x, y and z-coordinate; one `<int32>` possibly a flag field; one `<int32>` possibly describing the RGB color                                                                                                                                                          | Environment Tags / Subspace name   |
+| 'srcs' | one `<int32>` possibly the number of sources; three `<float32>` containing the x, y and z-coordinate; one `<int32>` possibly the source index                                                                                                                                                                                                                                        | Source Tag                         |
 
 # Goal 1: Understand EAXManager
 
