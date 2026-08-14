@@ -161,11 +161,68 @@ This is a LIST chunk with FourCC `gemp`. The subchunks are:
 | 'num ' (incl. trailing space) | `<int32>`                                              | total number of *Geometry Sets*                |
 | 'nams'                        | array of `<string>`; length of each string: *32 bytes* | entries are shown under *Geometry Sets*        |
 | 'fils'                        | `<string>` [*260 bytes*]                               | Mesh file (full path) in selected geometry set |
-| 'gema'                        | **TODO** - not decoded yet                             |                                                |
+| 'gema'                        |                                                        | described separately                           |
 
 EAGLE™ uses both *.eal* and *.eam* files when editing the geometry of a project. The geometry data is saved twice, once in each file, but in different forms. All objects created in EAGLE™ are saved in an unprocessed way into a *.eam* file. If you want to continue editing your project in EAGLE™, a *.eam* file is needed. The structure of a *.eam* file is described in the next paragraph.
 
-Inside the *.eal* file, only processed geometry data is stored inside the 'gema' chunk. Everything needed for fast geometry calculations is there. The 'gema' chunk is yet to be decoded fully.
+Inside the *.eal* file, only processed geometry data is stored inside the 'gema' chunk. Everything needed for fast geometry calculations is there. The 'gema' chunk is yet to be fully understood.
+
+##### GEMA Chunk Data
+
+The structure of the data stored inside the 'gema' chunk is:
+
+| data type                                          | description (as far as it has been decoded yet)                            |
+| -------------------------------------------------- | -------------------------------------------------------------------------- |
+| `<uint32>`                                         | total number of Sources placed                                             |
+| `<uint32>`                                         | total number of Environemnts                                               |
+| `<uint32>`                                         | always '0', maybe the geometry ID (struct containing the following fields) |
+| `<uint32>`                                         | total number of nodes in the spatial tree                                  |
+| `<uint32>`                                         | total number of leafs in the spatial tree                                  |
+| array of `<int32>`                                 | each `<int32>` is an environment ID                                        |
+| array of `<struct>` GEMASources                    | GEMASources contains the source parameters (details below)                 |
+| yet to be understood fields connected to Materials | those fields change with selected materials, but no more is known          |
+| array of `<struct>` GEMAPlane                      | GEMAPlane contains the spatial tree nodes (details below)                  |
+| array of `<struct>` GEMALeaf                       | GEMALeaf contains the spatial tree leaves (details below)                  |
+| `<uint32>`                                         | total number of *DIFFRACTIONBOX* elements in the following array           |
+| array of `<struct>` DIFFRACTIONBOX                 | EAX diffraction boxes                                                      |
+
+###### GEMASources struct
+
+This struct has not been defined in any publicly available header, so the name is arbitrary. It contains those data member:
+
+| data type   | description                              |
+| ----------- | ---------------------------------------- |
+| `<float32>` | x coordinate where the sources is placed |
+| `<float32>` | y coordinate where the sources is placed |
+| `<float32>` | z coordinate where the sources is placed |
+| `<uint32>`  | source ID                                |
+
+###### GEMAPlane struct
+
+This struct has not been defined in any publicly available header, so the name is arbitrary. It contains those data member:
+
+| data type   | description                              |
+| ----------- | ---------------------------------------- |
+| `<float32>` | x coordinate where the sources is placed |
+| `<float32>` | y coordinate where the sources is placed |
+| `<float32>` | z coordinate where the sources is placed |
+| `<float32>` | x coordinate of normal vector            |
+| `<float32>` | y coordinate of normal vector            |
+| `<float32>` | z coordinate of normal vector            |
+| `<uint32>`  | node ID                                  |
+| `<int32>`   | not yet understood inverse ID            |
+| `<uint32>`  | not yet understood ID                    |
+| `<uint32>`  | not yet understood ID                    |
+| `<int32>`   | not yet understood ID                    |
+
+###### GEMALeaf struct
+
+This struct has not been defined in any publicly available header, so the name is arbitrary. It contains those data member:
+
+| data type | description                     |
+| --------- | ------------------------------- |
+| `<int32>` | probably: environment ID        |
+| `<int32>` | another ID - not yet understood |
 
 ## EAM file
 
