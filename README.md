@@ -171,31 +171,26 @@ Inside the *.eal* file, only processed geometry data is stored inside the 'gema'
 
 The structure of the data stored inside the 'gema' chunk is:
 
-| data type                                          | description (as far as it has been decoded yet)                            |
-| -------------------------------------------------- | -------------------------------------------------------------------------- |
-| `<uint32>`                                         | total number of Sources placed                                             |
-| `<uint32>`                                         | total number of Environemnts                                               |
-| `<uint32>`                                         | always '0', maybe the geometry ID (struct containing the following fields) |
-| `<uint32>`                                         | total number of nodes in the spatial tree                                  |
-| `<uint32>`                                         | total number of leafs in the spatial tree                                  |
-| array of `<int32>`                                 | each `<int32>` is an environment ID                                        |
-| array of `<struct>` GEMASources                    | GEMASources contains the source parameters (details below)                 |
-| yet to be understood fields connected to Materials | those fields change with selected materials, but no more is known          |
-| array of `<struct>` GEMAPlane                      | GEMAPlane contains the spatial tree nodes (details below)                  |
-| array of `<struct>` GEMALeaf                       | GEMALeaf contains the spatial tree leaves (details below)                  |
-| `<uint32>`                                         | total number of *DIFFRACTIONBOX* elements in the following array           |
-| array of `<struct>` DIFFRACTIONBOX                 | EAX diffraction boxes                                                      |
+| data type                          | description (as far as it has been decoded yet)                     |
+| ---------------------------------- | ------------------------------------------------------------------- |
+| `<uint32>`                         | total number of Sources placed `srcNr`                              |
+| `<uint32>`                         | total number of Environments `envNr`                                |
+| `<uint32>`                         | only a value of '0' has been observed so far                        |
+| `<uint32>`                         | total number of nodes in the spatial tree `nodeNr`                  |
+| `<uint32>`                         | total number of leafs in the spatial tree `leafNr`                  |
+| array of `<int32>`                 | each `<int32>` is a source ID that was placed in the geometry       |
+| array of `<struct>` EMPOINT        | contains the coordinates of placed sources                          |
+| array of `<int32>`                 | each `<int32>` is an environment ID that was placed in the geometry |
+| array of `<int32>`                 | those fields change with selected materials                         |
+| array of `<struct>` GEMAPlane      | GEMAPlane contains the spatial tree nodes (details below)           |
+| array of `<struct>` GEMALeaf       | GEMALeaf contains the spatial tree leaves (details below)           |
+| `<uint32>`                         | total number of *DIFFRACTIONBOX* elements in the following array    |
+| array of `<struct>` DIFFRACTIONBOX | EAX diffraction boxes                                               |
 
-###### GEMASources struct
+###### Materials info
 
-This struct has not been defined in any publicly available header, so the name is arbitrary. It contains those data member:
-
-| data type   | description                              |
-| ----------- | ---------------------------------------- |
-| `<float32>` | x coordinate where the sources is placed |
-| `<float32>` | y coordinate where the sources is placed |
-| `<float32>` | z coordinate where the sources is placed |
-| `<uint32>`  | source ID                                |
+What has been observed so far: the array contains [`(envNr+1)*(envNr+2)-1`] 32bit elements.
+The last entry in this array is always `0xFFFFFFFE = (int32)-2` which is the value of the default ID `EMFLAG_IDDEFAULT`.
 
 ###### GEMAPlane struct
 
@@ -312,7 +307,7 @@ The FourCC of this chunk is `bspp`. It is an array of nodes.
 
 #### Brushes Chunk
 
-The FourCC of this chunk is `brsh`. It has not been decoded yet.
+The FourCC of this chunk is `brsh`. It has not been decoded yet. The brush tags and color information has been observed to be stored in this chunk.
 
 | data type | description |
 | --------- | ----------- | 
