@@ -190,7 +190,6 @@ The structure of the data stored inside the 'gema' chunk is:
 ###### Materials info
 
 What has been observed so far: the array contains [`(envNr+1)*(envNr+2)-1`] 32bit elements.
-The last entry in this array is always `0xFFFFFFFE = (int32)-2` which is the value of the default ID `EMFLAG_IDDEFAULT`.
 
 ###### GEMAPlane struct
 
