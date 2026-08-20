@@ -181,17 +181,19 @@ The structure of the data stored inside the 'gema' chunk is:
 | array of `<int32>`                 | each `<int32>` is a source ID that was placed in the geometry       |
 | array of `<struct>` EMPOINT        | contains the coordinates of placed sources                          |
 | array of `<int32>`                 | each `<int32>` is an environment ID that was placed in the geometry |
-| array of `<int32>`                 | those fields change with selected materials                         |
-| array of `<struct>` GEMAPlane      | GEMAPlane contains the spatial tree nodes (details below)           |
-| array of `<struct>` GEMALeaf       | GEMALeaf contains the spatial tree leaves (details below)           |
+| array of `<int32>`                 | Environment-Obstacle-Matrix                                         |
+| array of `<struct>` SpatTreeNode   | SpatTreeNode contains the spatial tree nodes (details below)           |
+| array of `<struct>` SpatTreeLeaf   | SpatTreeLeaf contains the spatial tree leaves (details below)           |
 | `<uint32>`                         | total number of *DIFFRACTIONBOX* elements in the following array    |
 | array of `<struct>` DIFFRACTIONBOX | EAX diffraction boxes                                               |
 
-###### Materials info
+###### Environment-Obstacle-Matrix
 
-What has been observed so far: the array contains [`(envNr+1)*(envNr+2)-1`] 32bit elements.
+The array contains [`(envNr+1)*(envNr+2)-1`] indices, each is `<int32>`.
+This table describes the degree to which sound is attenuated between two Environment zones.
+It contains only obstacle IDs.
 
-###### GEMAPlane struct
+###### SpatTreeNode struct
 
 This struct has not been defined in any publicly available header, so the name is arbitrary. It contains those data member:
 
@@ -209,7 +211,7 @@ This struct has not been defined in any publicly available header, so the name i
 | `<uint32>`  | not yet understood ID                    |
 | `<int32>`   | not yet understood ID                    |
 
-###### GEMALeaf struct
+###### SpatTreeLeaf struct
 
 This struct has not been defined in any publicly available header, so the name is arbitrary. It contains those data member:
 
