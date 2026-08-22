@@ -199,21 +199,21 @@ It contains the inner nodes of BSP data structure.
 The data describes the spatial partition.
 As there is no definition of this structure in any public header, the name has been chosen arbitrarily and is intended to reflect its function.
 
-| data type   | description                                 |
-| ----------- | ------------------------------------------- |
-| `<float32>` | x coordinate where the sources is placed    |
-| `<float32>` | y coordinate where the sources is placed    |
-| `<float32>` | z coordinate where the sources is placed    |
-| `<float32>` | x coordinate of normal vector n<sub>x</sub> |
-| `<float32>` | y coordinate of normal vector n<sub>y</sub> |
-| `<float32>` | z coordinate of normal vector n<sub>y</sub> |
-| `<uint32>`  | Front child ID (MSB=1 for leaf, 0 for node) |
-| `<uint32>`  | Back child ID (MSB=1 for leaf, 0 for node)  |
-| `<uint32>`  | not yet understood ID                       |
-| `<uint32>`  | not yet understood ID                       |
-| `<int32>`   | not yet understood ID                       |
+| data type   | description                                        |
+| ----------- | -------------------------------------------------- |
+| `<float32>` | x coordinate of a point inside the partition plane |
+| `<float32>` | y coordinate of a point inside the partition plane |
+| `<float32>` | z coordinate of a point inside the partition plane |
+| `<float32>` | x component of normal vector n<sub>x</sub>         |
+| `<float32>` | y component of normal vector n<sub>y</sub>         |
+| `<float32>` | z component of normal vector n<sub>y</sub>         |
+| `<uint32>`  | Front child ID (MSB=1 means leaf, 0 means node)    |
+| `<uint32>`  | Back child ID (MSB=1 means leaf, 0 means node)     |
+| `<uint32>`  | not yet understood ID                              |
+| `<uint32>`  | not yet understood ID                              |
+| `<int32>`   | not yet understood ID                              |
 
-The normal vectors are normalized, meaning they satisfy the following equation: (n<sub>x</sub>)² + (n<sub>y</sub>)² + (n<sub>z</sub>)² = 1.
+The normal vector is normalized, meaning the components satisfy the equation (n<sub>x</sub>)² + (n<sub>y</sub>)² + (n<sub>z</sub>)² = 1.
 
 ###### Zone struct
 
