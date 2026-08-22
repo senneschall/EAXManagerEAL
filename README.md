@@ -176,14 +176,14 @@ The structure of the data stored inside the 'gema' chunk is:
 | `<uint32>`                         | total number of Sources placed `srcNr`                              |
 | `<uint32>`                         | total number of Environments `envNr`                                |
 | `<uint32>`                         | only a value of '0' has been observed so far                        |
-| `<uint32>`                         | total number of nodes in the spatial tree `nodeNr`                  |
-| `<uint32>`                         | total number of leafs in the spatial tree `leafNr`                  |
+| `<uint32>`                         | total number of nodes in the spatial tree `splitNodeNr`             |
+| `<uint32>`                         | total number of leafs in the spatial tree `zoneNr`                  |
 | array of `<int32>`                 | each `<int32>` is a source ID that was placed in the geometry       |
 | array of `<struct>` EMPOINT        | contains the coordinates of placed sources                          |
 | array of `<int32>`                 | each `<int32>` is an environment ID that was placed in the geometry |
 | array of `<int32>`                 | Environment-Obstacle-Matrix                                         |
-| array of `<struct>` SpatTreeNode   | SpatTreeNode contains the spatial tree nodes (details below)        |
-| array of `<struct>` SpatTreeLeaf   | SpatTreeLeaf contains the spatial tree leaves (details below)       |
+| array of `<struct>` SplitNode      | SplitNode contains info how the subsets are split (details below)   |
+| array of `<struct>` Zone           | Zone contains the IDs which environment to use (details below)      |
 | `<uint32>`                         | total number of *DIFFRACTIONBOX* elements in the following array    |
 | array of `<struct>` DIFFRACTIONBOX | EAX diffraction boxes                                               |
 
@@ -193,9 +193,11 @@ The array contains [`(envNr+1)*(envNr+2)-1`] indices, each is `<int32>`.
 This table describes the degree to which sound is attenuated between two Environment zones.
 It contains only obstacle IDs.
 
-###### SpatTreeNode struct
+###### SplitNode struct
 
-This struct has not been defined in any publicly available header, so the name is arbitrary. It contains those data member:
+It contains the inner nodes of BSP data structure.
+The data describes the spatial partition.
+As there is no definition of this structure in any public header, the name has been chosen arbitrarily and is intended to reflect its function.
 
 | data type   | description                                 |
 | ----------- | ------------------------------------------- |
@@ -205,22 +207,25 @@ This struct has not been defined in any publicly available header, so the name i
 | `<float32>` | x coordinate of normal vector n<sub>x</sub> |
 | `<float32>` | y coordinate of normal vector n<sub>y</sub> |
 | `<float32>` | z coordinate of normal vector n<sub>y</sub> |
-| `<uint32>`  | node ID                                     |
-| `<int32>`   | not yet understood inverse ID               |
+| `<uint32>`  | Front child ID (MSB=1 for leaf, 0 for node) |
+| `<uint32>`  | Back child ID (MSB=1 for leaf, 0 for node)  |
 | `<uint32>`  | not yet understood ID                       |
 | `<uint32>`  | not yet understood ID                       |
 | `<int32>`   | not yet understood ID                       |
 
 The normal vectors are normalized, meaning they satisfy the following equation: (n<sub>x</sub>)² + (n<sub>y</sub>)² + (n<sub>z</sub>)² = 1.
 
-###### SpatTreeLeaf struct
+###### Zone struct
 
-This struct has not been defined in any publicly available header, so the name is arbitrary. It contains those data member:
+There is exactly one more Zone than there are SplitNodes, so `zoneNr = splitNodeNr + 1`.
+Therefore these are the outer nodes of the BSP.
+The structure contains two IDs that describe the environment and the obstacle associated with it.
+As there is no definition of this structure in any public header, the name has been chosen arbitrarily and is intended to reflect its function.
 
-| data type | description                     |
-| --------- | ------------------------------- |
-| `<int32>` | probably: environment ID        |
-| `<int32>` | another ID - not yet understood |
+| data type | description                   |
+| --------- | ----------------------------- |
+| `<int32>` | environment ID of that region |
+| `<int32>` | obstacle ID of that region    |
 
 ## EAM file
 
