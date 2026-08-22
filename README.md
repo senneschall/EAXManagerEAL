@@ -18,7 +18,7 @@ Those advanced sound effects needed sound hardware supporting EAX ([Environmenta
 
 Starting with Windows Vista, Microsoft deprecated *DirectSound3D* which meant a loss of hardware acceleration and therefore the EAX effects are no longer accessible.
 
-To restore the hardware acceleration, *Creative* release [ALChemy](https://support.creative.com/Downloads/searchdownloads.aspx?strstring=almy&showdetails=1). This translates the calls to *DirectSound3D* into hardware accelerated *OpenAL* calls. The downside is you must have specific sound hardware. The list of supported hardware is limited to some *Creative* Sound Blaster cards.
+To restore the hardware acceleration, *Creative* release [ALChemy](https://support.creative.com/Downloads/searchdownloads.aspx?strstring=almy&showdetails=1). This translates the *DirectSound3D* calls into hardware accelerated *OpenAL* calls. Even though *OpenAL* is vendor agnostic, you still need to have specific sound hardware for the EAX effects to work. The list of supported hardware is limited to some *Creative* Sound Blaster cards.
 
 ### Make EAX effects work in modern times
 
@@ -182,8 +182,8 @@ The structure of the data stored inside the 'gema' chunk is:
 | array of `<struct>` EMPOINT        | contains the coordinates of placed sources                          |
 | array of `<int32>`                 | each `<int32>` is an environment ID that was placed in the geometry |
 | array of `<int32>`                 | Environment-Obstacle-Matrix                                         |
-| array of `<struct>` SpatTreeNode   | SpatTreeNode contains the spatial tree nodes (details below)           |
-| array of `<struct>` SpatTreeLeaf   | SpatTreeLeaf contains the spatial tree leaves (details below)           |
+| array of `<struct>` SpatTreeNode   | SpatTreeNode contains the spatial tree nodes (details below)        |
+| array of `<struct>` SpatTreeLeaf   | SpatTreeLeaf contains the spatial tree leaves (details below)       |
 | `<uint32>`                         | total number of *DIFFRACTIONBOX* elements in the following array    |
 | array of `<struct>` DIFFRACTIONBOX | EAX diffraction boxes                                               |
 
@@ -197,19 +197,21 @@ It contains only obstacle IDs.
 
 This struct has not been defined in any publicly available header, so the name is arbitrary. It contains those data member:
 
-| data type   | description                              |
-| ----------- | ---------------------------------------- |
-| `<float32>` | x coordinate where the sources is placed |
-| `<float32>` | y coordinate where the sources is placed |
-| `<float32>` | z coordinate where the sources is placed |
-| `<float32>` | x coordinate of normal vector            |
-| `<float32>` | y coordinate of normal vector            |
-| `<float32>` | z coordinate of normal vector            |
-| `<uint32>`  | node ID                                  |
-| `<int32>`   | not yet understood inverse ID            |
-| `<uint32>`  | not yet understood ID                    |
-| `<uint32>`  | not yet understood ID                    |
-| `<int32>`   | not yet understood ID                    |
+| data type   | description                                 |
+| ----------- | ------------------------------------------- |
+| `<float32>` | x coordinate where the sources is placed    |
+| `<float32>` | y coordinate where the sources is placed    |
+| `<float32>` | z coordinate where the sources is placed    |
+| `<float32>` | x coordinate of normal vector n<sub>x</sub> |
+| `<float32>` | y coordinate of normal vector n<sub>y</sub> |
+| `<float32>` | z coordinate of normal vector n<sub>y</sub> |
+| `<uint32>`  | node ID                                     |
+| `<int32>`   | not yet understood inverse ID               |
+| `<uint32>`  | not yet understood ID                       |
+| `<uint32>`  | not yet understood ID                       |
+| `<int32>`   | not yet understood ID                       |
+
+The normal vectors are normalized, meaning they satisfy the following equation: (n<sub>x</sub>)² + (n<sub>y</sub>)² + (n<sub>z</sub>)² = 1.
 
 ###### SpatTreeLeaf struct
 
@@ -246,13 +248,13 @@ The FourCC of this chunk is `vind`. It contains the index of each vertex.
 
 The FourCC of this chunk is `vert`. It contains the x,y,z-coordinates of each vertex.
 
-| data type                       | description                  |
-| ------------------------------- | ---------------------------- | 
-| `<int32>`                       | total number of *vertices*   |
-| array of `<struct>` containing: | `vertices[vertex_count][3]`  |
-| `<float32>`                     | x-coordinates of a vertex    |
-| `<float32>`                     | y-coordinates of a vertex    |
-| `<float32>`                     | z-coordinates of a vertex    |
+| data type                       | description                 |
+| ------------------------------- | --------------------------- | 
+| `<int32>`                       | total number of *vertices*  |
+| array of `<struct>` containing: | `vertices[vertex_count][3]` |
+| `<float32>`                     | x-coordinates of a vertex   |
+| `<float32>`                     | y-coordinates of a vertex   |
+| `<float32>`                     | z-coordinates of a vertex   |
 
 #### Polygons Chunk
 
