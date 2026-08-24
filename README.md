@@ -222,10 +222,10 @@ Therefore these are the outer nodes of the BSP.
 The structure contains two IDs that describe the environment and the obstacle associated with it.
 As there is no definition of this structure in any public header, the name has been chosen arbitrarily and is intended to reflect its function.
 
-| data type | description                   |
-| --------- | ----------------------------- |
-| `<int32>` | environment ID of that region |
-| `<int32>` | obstacle ID of that region    |
+| data type | description                                                                        |
+| --------- | ---------------------------------------------------------------------------------- |
+| `<int32>` | not yet understood connection to Environment-Obstacle-Matrix                       |
+| `<int32>` | index inside the *placed envIDs* array containig the environment ID of that region |
 
 ## EAM file
 
