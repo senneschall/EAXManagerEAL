@@ -479,29 +479,17 @@ Therefore, this reported mismatch must be considered a bug in the *EaxMan.dll* A
 
 Still there is one problem left: `EaxMan.dll` does do the 3D position calculations internally as described in the *ReadEalFiles dynamic analysis* section. The source code for EAXManager was not disclosed and the calculations are only described in a rudimentary way. So there is yet decoding work to do.
 
-#### Brute force approach
+#### Approach
 
- `GetListenerDynamicAttributes` only gives back the environment ID and *ReadEalFiles* shows that there is way to get the according parameters without using *EaxMan.dll*. A straightforward approach is to read out all data and save it outside the *.eal* files. The most basic approach would be to loop over all coordinates and store the results of `GetListenerDynamicAttributes`.
+As progress was made in decoding the *.eal* file structure, it also became possible to write the cross-platform implementation.
 
-The downside to this approach is the resulting file size. If we want to have a resolution of 1 cube unit, we would iterate all three coordinates in the range `-32767` to `32767`. So a total of `65536³ = (2^16)³ = 2^48` values needed to be stored. If the ID is stored in 1 Byte, that would result in a file size of `256 TB`.
+The result is [senneschall/EalMan](https://github.com/senneschall/EalMan) - the *.eal* file Manager.
 
-Even if we only consider the playable space this does not improve too much. For example, the player reachable space in *CTF-Face* is `X:-6238 to +10712`, `Y:-8539 to 8361`, `Z:-7358 to 10642`. This still results in a file size of `4.7 TB`.
-
-There is still room for improvement. Compressing the data, storing more IDs per byte, further reducing the volume are some ideas. Still, the brute force method does not seem promising except as a last resort.
-
-So a refined approach is needed. An idea is to not store the ID for each coordinate, but look at the coordinates where the ID changes and calculate back the shape of each environment zone from there.
-
-This is a task for someone with experience with 3D coordinate calculations.
-
-A better approach would of course be:
-
-#### Decoding the geometry data
-
-The geometry data is stored inside the *.eal* file and the calculation is done by the `EaxMan.dll`. So maybe there is a way to reverse engineer the actual calculation and then use that.
+It implements the `EaxMan.dll` API as a library written in C++ with the goal of achieving platform and architecture independence.
 
 ## Conclusion
 
-Replacing `EaxMan.dll` with custom code for OS other than Windows is possible but a feasible approach to obtain the 3D geometry data has still to be identified.
+Replacing `EaxMan.dll` with custom code for OS other than Windows is possible once the last missing API call of [senneschall/EalMan](https://github.com/senneschall/EalMan) is implemented.
 
 ### Sample program PlayEalFiles
 
@@ -533,4 +521,6 @@ Other pieces are heavily derived from the RIFF decoder and information [RIFF Fil
 
 Another helpful resource in making *PlayEalFiles* work was the [OpenAL short example](https://ffainelli.github.io/openal-example/)
 
-And a final shoutout and thanks to *Createive* for those *EAX patches*, the folks behind *websound.ru* who saved those old SDKs. And to the contributors of [OldUnreal/UnrealTournamentPatches](https://github.com/OldUnreal/UnrealTournamentPatches) who keep this game alive.
+Quite a few tools proved to be very helpful in decoding the info. The most important of these are [nationalsecurityagency/ghidra](https://github.com/nationalsecurityagency/ghidra) for static analysis and [x64dbg/x64dbg](https://github.com/x64dbg/x64dbg) for dynamic analysis. Also [API monitor](http://www.rohitab.com/apimonitor) and [QEMU](https://www.qemu.org), which enable all EAGLE™ functions to run on a modern computer.
+
+And a final shoutout and thanks to *Creative* for those *EAX patches*, the folks behind *websound.ru* who saved those old SDKs. And to the contributors of [OldUnreal/UnrealTournamentPatches](https://github.com/OldUnreal/UnrealTournamentPatches) who keep this game alive.
