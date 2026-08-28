@@ -181,17 +181,24 @@ The structure of the data stored inside the 'gema' chunk is:
 | array of `<int32>`                 | each `<int32>` is a source ID that was placed in the geometry       |
 | array of `<struct>` EMPOINT        | contains the coordinates of placed sources                          |
 | array of `<int32>`                 | each `<int32>` is an environment ID that was placed in the geometry |
-| array of `<int32>`                 | Environment-Obstacle-Matrix                                         |
+| array of `<int32>`                 | Diffraction                                                         |
+| array of `<int32>`                 | Environment Matrix                                                  |
 | array of `<struct>` SplitNode      | SplitNode contains info how the subsets are split (details below)   |
 | array of `<struct>` Zone           | Zone contains the IDs which environment to use (details below)      |
 | `<uint32>`                         | total number of *DIFFRACTIONBOX* elements in the following array    |
 | array of `<struct>` DIFFRACTIONBOX | EAX diffraction boxes                                               |
 
-###### Environment-Obstacle-Matrix
+###### Diffraction
 
-The array contains [`(envNr+1)*(envNr+2)-1`] indices, each is `<int32>`.
-This table describes the degree to which sound is attenuated between two Environment zones.
-It contains only obstacle IDs.
+The array contains `envNr` indices, each is a `<int32>` refering to an obstacle ID.
+
+###### Environment Matrix
+
+The array contains `(envNr+1)*(envNr+1)` indices, each is a `<int32>`.
+The entries are obstacle IDs that refer to the obstacle model that needs to be used.
+Rows describe the location (envID assigned to that location) of the listener.
+Columns describe the location (envID assigned to that location) of the source.
+Each row and each column contains one more entry than there are envIDs, as an untagged environment (default ID) is also a valid entry.
 
 ###### SplitNode struct
 
