@@ -175,7 +175,7 @@ The structure of the data stored inside the 'gema' chunk is:
 | ---------------------------------- | ------------------------------------------------------------------- |
 | `<uint32>`                         | total number of Sources placed `srcNr`                              |
 | `<uint32>`                         | total number of Environments `envNr`                                |
-| `<uint32>`                         | only a value of '0' has been observed so far                        |
+| `<uint32>`                         | starting index for BSP tree traversing (only '0' has been observed) |
 | `<uint32>`                         | total number of nodes in the spatial tree `splitNodeNr`             |
 | `<uint32>`                         | total number of leafs in the spatial tree `zoneNr`                  |
 | array of `<int32>`                 | each `<int32>` is a source ID that was placed in the geometry       |
